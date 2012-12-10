@@ -1,7 +1,7 @@
 use Test::More qw( no_plan );
 use Config::Yak;
 
-BEGIN { use_ok( 'Config::Yak', '@VERSION@' ); }
+BEGIN { use_ok( 'Config::Yak', '0.11' ); }
 
 my $ConfigObject = Config::Yak::->new(
     {

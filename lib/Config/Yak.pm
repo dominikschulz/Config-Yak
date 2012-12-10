@@ -6,6 +6,7 @@ use mro 'c3';
 use feature ':5.10';
 
 use Moose;
+use Moose::Util::TypeConstraints;
 use namespace::autoclean;
 
 use IO::Handle;
@@ -17,11 +18,19 @@ use Hash::Merge;
 use Data::Dumper;
 use Try::Tiny;
 
+subtype 'ArrayRefOfStr',
+    as 'ArrayRef[Str]';
+
+coerce 'ArrayRefOfStr',
+    from 'Str',
+    via { [ $_ ] };
+
 extends 'Data::Tree';
 
 has 'locations' => (
     'is'       => 'rw',
-    'isa'      => 'ArrayRef[Str]',
+    'isa'      => 'ArrayRefOfStr',
+    'coerce'   => 1,
     'required' => 1,
 );
 
