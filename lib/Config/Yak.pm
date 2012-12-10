@@ -17,6 +17,7 @@ use Config::Tiny;
 use Hash::Merge;
 use Data::Dumper;
 use Try::Tiny;
+use Data::Structure::Util qw();
 
 subtype 'ArrayRefOfStr',
     as 'ArrayRef[Str]';
@@ -160,8 +161,9 @@ sub _load_legacy_config {
     foreach my $file ( @{$files_ref} ) {
         if ( -e $file ) {
             try {
-                my $Config = Config::Tiny::->new($file);
+                my $Config = Config::Tiny::->read($file);
                 print '_load_legacy_config - Loaded ' . $file . "\n" if $self->debug();
+                Data::Structure::Util::unbless($Config);
                 $cfg = Hash::Merge::merge( $cfg, $Config );
                 ## no critic (ProhibitMagicNumbers)
                 my $last_ts = ( stat($file) )[9];
