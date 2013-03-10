@@ -26,7 +26,7 @@ coerce 'ArrayRefOfStr',
     from 'Str',
     via { [ $_ ] };
 
-extends 'Data::Tree';
+extends 'Data::Tree' => { -version => 0.16 };
 
 has 'locations' => (
     'is'       => 'rw',
