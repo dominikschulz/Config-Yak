@@ -20,7 +20,7 @@ use Try::Tiny;
 use Data::Structure::Util qw();
 
 subtype 'ArrayRefOfStr',
-    as 'ArrayRef[Str]';
+     as 'ArrayRef[Str]';
 
 coerce 'ArrayRefOfStr',
     from 'Str',

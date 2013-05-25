@@ -6,7 +6,7 @@ BEGIN { use_ok( 'Config::Yak', '0.11' ); }
 my $ConfigObject = Config::Yak::->new(
     {
         'locations' => [qw(t/conf/test001.conf)],
-        'debug'     => 0,
+        'debug'     => 1,
         'verbose'   => 0,
     }
 );
@@ -21,9 +21,9 @@ my $ref = {
             'sites' => {
                 'site1' => {
                     'days' => 'Num',
-                    'type'         => 'Str',
-                }
-            }
+                    'type' => 'Str',
+                },
+            },
         },
     },
 };
@@ -41,19 +41,19 @@ sub check_ref {
         else {
             my $ref_val = $ref->{$key};
             if ( $ref_val eq 'ARRAY' ) {
-                ok( ref( $config->{$key} ) eq 'ARRAY', 'Expected Array at ' . join( '-', @{$stack} ) . ' not ' . ref( $config->{$key} ) );
+                ok( ref( $config->{$key} ) eq 'ARRAY', 'Expected Array at ' . join( '-', @{$stack} ) . ' not ' . ref( $config->{$key} ));
             }
             elsif ( $ref_val eq 'HASH' ) {
-                ok( ref( $config->{$key} ) eq 'HASH', 'Hash at ' . join( '-', @{$stack}. ' - Got: '.$config->{$key} ) );
+                ok( ref( $config->{$key} ) eq 'HASH', 'Expected Hash at ' . join( '-', @{$stack}). ' - Got: '.$config->{$key} );
             }
             elsif ( $ref_val eq 'Str' ) {
-                ok( $config->{$key} =~ m/\w+/, 'String at ' . join( '-', @{$stack}. ' - Got: '.$config->{$key} ) );
+                ok( $config->{$key} =~ m/\w+/, 'Expected String at ' . join( '-', @{$stack}). ' - Got: '.$config->{$key} );
             }
             elsif ( $ref_val eq 'Num' ) {
-                ok( $config->{$key} =~ m/[+-]?[\d.,]+/, 'Number at ' . join( '-', @{$stack}. ' - Got: '.$config->{$key} ) );
+                ok( $config->{$key} =~ m/[+-]?[\d.,]+/, 'Expected Number at ' . join( '-', @{$stack}). ' - Got: '.$config->{$key} );
             }
             else {
-                ok( $config->{$key} eq $ref_val, 'String eq at ' . join( '-', @{$stack} . ' Got: ' . $config->{$key} . '. Expected: ' . $ref_val ) );
+                ok( $config->{$key} eq $ref_val, 'String eq at ' . join( '-', @{$stack}) . ' Got: ' . $config->{$key} . '. Expected: ' . $ref_val );
             }
         }
         pop( @{$stack} );
@@ -99,3 +99,4 @@ $ConfigObject->reset_config();
 ok( !keys %{ $ConfigObject->config() }, 'Test that config is empty after reset' );
 
 $ConfigObject = undef;
+
